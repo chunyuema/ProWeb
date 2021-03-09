@@ -2,7 +2,19 @@
 <body> = document.body
 <head> = document.head
 
-
+# Grabbing Elements: 
+- document.getElementById(id)
+- elem.querySelector(css): returns the first element for the given CSS selector. 
+- elem.querySelectorAll(css): returns all elements inside elem matching the given CSS selector.
+All methods "getElementsBy*" return a live collection. Such collections always reflect the current state of the document and “auto-update” when it changes.
+By far the most used are querySelector and querySelectorAll, but getElement(s)By* can be sporadically helpful or found in the old scripts.
+Method	                 Searches by...	Can call on an element?	   Live?
+querySelector	         CSS-selector	    ✔	                    -
+querySelectorAll	     CSS-selector	    ✔	                    -
+getElementById	             id	            -	                    -
+getElementsByName	        name	        -	                    ✔
+getElementsByTagName	    tag or '*'	    ✔	                    ✔
+getElementsByClassName	   class	        ✔	                    ✔
 
 # Working with Nodes: 
 The childNodes collection lists all child nodes, including text nodes.
@@ -22,17 +34,6 @@ Using for...of to iterate through the childNodes collections
 - elemA.contains(elemB) returns true if elemB is inside elemA (a descendant of elemA) or when elemA==elemB.
 
 
-# Grabbing Elements: 
-By far the most used are querySelector and querySelectorAll, but getElement(s)By* can be sporadically helpful or found in the old scripts.
-Method	                 Searches by...	Can call on an element?	   Live?
-querySelector	         CSS-selector	    ✔	                    -
-querySelectorAll	     CSS-selector	    ✔	                    -
-getElementById	             id	            -	                    -
-getElementsByName	        name	        -	                    ✔
-getElementsByTagName	    tag or '*'	    ✔	                    ✔
-getElementsByClassName	   class	        ✔	                    ✔
-
-
 # Node Properties: 
 - elem.nodeType: use it to see if a node is a text or an element node. 
     - elem.nodeType == 1 for element nodes,
@@ -48,3 +49,78 @@ getElementsByClassName	   class	        ✔	                    ✔
 - elem.hidden: When set to true, does the same as CSS display:none.
 DOM nodes also have other properties depending on their class. 
 For instance, <input> elements (HTMLInputElement) support value, type, while <a> elements (HTMLAnchorElement) support href etc. Most standard HTML attributes have a corresponding DOM property.
+
+
+DOM Properties
+Attributes – is what’s written in HTML.
+Properties – is what’s in DOM objects.
+When creating the DOM tree, attributes are converted into properties. In HTML, tags may have attributes. When the browser parses the HTML to create DOM objects for tags, it recognizes standard attributes and creates DOM properties from them.
+- <body id="test" something="non-standard"> //DOM element body has a id property created
+- document.body.id // test
+- document.body.something // undefined
+If the property is not automatically created while reading the DOM, attribute names are case insensitive
+- elem.hasAttribute(name) – checks for existence.
+- elem.getAttribute(name) – gets the value.
+- elem.setAttribute(name, value) – sets the value.
+- elem.removeAttribute(name) – removes the attribute.
+All attributes starting with “data-” are reserved for programmers’ use. They are available in the dataset property.
+<body data-about="Elephants">
+- document.body.dataset.about // Elephants
+
+
+Modifiying The Document
+1. Creating element: 
+- document.createElement('div')
+- document.createTextNode('Hello World')
+2. Creating message: 
+- let div = document.createElement('div')
+- div.className = "alert"
+- div.innerHTML = ""
+3. Insert the node: 
+- node.append(...nodes or strings) – append nodes or strings at the end of node,
+- node.prepend(...nodes or strings) – insert nodes or strings at the beginning of node,
+- node.before(...nodes or strings) –- insert nodes or strings before node,
+- node.after(...nodes or strings) –- insert nodes or strings after node,
+- node.replaceWith(...nodes or strings) –- replaces node with the given nodes or strings.
+4. Insert adjacent HTML: 
+- elem.insertAdjacentHTML(where, html)
+    - "beforebegin" – insert html immediately before elem,
+    - "afterbegin" – insert html into elem, at the beginning,
+    - "beforeend" – insert html into elem, at the end,
+    - "afterend" – insert html immediately after elem.
+5. Node removal: 
+- node.remove()
+6. Node clone: 
+- elem.cloneNode(true) creates a “deep” clone of the element – with all attributes and subelements. 
+- elem.cloneNode(false), then the clone is made without child elements.
+7. Old Method: 
+- parentElem.appendChild(node): Appends node as the last child of parentElem.
+- parentElem.insertBefore(node, nextSibling): Inserts node before nextSibling into parentElem.
+- parentElem.replaceChild(node, oldChild): Replaces oldChild with node among children of parentElem.
+- parentElem.removeChild(node): Removes node from parentElem (assuming node is its child)
+8. document.write(): only works when the page is loading; if you call after page load, everything in the document will be removed
+
+
+Styles and CSS:
+1. Directly access the CSS property and style it 
+- elem.style.[property]: directly style the element
+2. Modifiy the classes of the element so that it can be styled by a matching
+- elem.className: gives the class name, you can also assign it to be a certain class
+- elem.classList: returns a the list of classes
+    - elem.classList.add/remove("class") – adds/removes the class.
+    - elem.classList.toggle("class") – adds the class if it doesn’t exist, otherwise removes it.
+    - elem.classList.contains("class") – checks for the given class, returns true/false.
+
+
+Element Size and Scrolling: 
+- offsetParent – is the nearest positioned ancestor or td, th, table, body.
+- offsetLeft/offsetTop – coordinates relative to the upper-left edge of offsetParent.
+- offsetWidth/offsetHeight – “outer” width/height of an element including borders.
+- clientLeft/clientTop – the distances from the upper-left outer corner to the upper-left inner (content + padding) corner. For left-to-right OS they are always the widths of left/top borders. For right-to-left OS the vertical scrollbar is on the left so clientLeft includes its width too.
+- clientWidth/clientHeight – the width/height of the content including paddings, but without the scrollbar.
+- scrollWidth/scrollHeight – the width/height of the content, just like clientWidth/clientHeight, but also include scrolled-out, invisible part of the element.
+- scrollLeft/scrollTop – width/height of the scrolled out upper part of the element, starting from its upper-left corner.
+- window.pageYOffset/pageXOffset: Read the current scroll: 
+- window.scrollTo(pageX,pageY) – absolute coordinates,
+- window.scrollBy(x,y) – scroll relative the current place,
+- elem.scrollIntoView(top) – scroll to make elem visible (align with the top/bottom of the window).
