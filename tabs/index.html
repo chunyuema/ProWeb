@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="tab">
+        <button id="defaultOpen" class="tablink" onclick="openCity(event, 'London')">London</button>
+        <button class="tablink" onclick="openCity(event, 'Paris')">Paris</button>
+        <button class="tablink" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+    </div>
+
+    <div id="London" class="tabcontent">
+        <h3>London</h3>
+        <p>Some information about London</p>
+        <button onclick="closeTab.call(this)">close x</button>
+    </div>
+    <div id="Paris" class="tabcontent">
+        <h3>Paris</h3>
+        <p>Some information about Paris</p>
+        <button onclick="closeTab.call(this)">close x</button>
+    </div>    
+    <div id="Tokyo" class="tabcontent">
+        <h3>Tokyo</h3>
+        <p>Some information about Tokyo</p>
+        <button onclick="closeTab.call(this)">close x</button>
+    </div>
+
+    <script>
+        function openCity(event, cityName){
+            let tabcontents = document.getElementsByClassName("tabcontent"); 
+
+            for (let i=0; i<tabcontents.length; i++){
+                tabcontents[i].style.display = "none";
+            }
+
+            let tablinks = document.getElementsByClassName("tablink");
+            for (let i=0; i<tablinks.length; i++){
+                tablinks[i].className = tablinks[i].className.replace("active", "");
+            }
+            console.log(document.getElementById(cityName).style);
+
+            document.getElementById(cityName).style.display = "block"; 
+            e.currentTarget.className += "active";
+        }
+
+        function closeTab(){
+            this.parentElement.style.display='none'
+        }
+
+        document.getElementById("defaultOpen").click();
+    </script>
+</body>
+</html>
